@@ -1,10 +1,7 @@
 plugins {
   id("com.android.library")
-} //ext {
-//    PUBLISH_GROUP_ID = 'hu.don.easylut'
-//    PUBLISH_ARTIFACT_ID = 'easylut'
-//    PUBLISH_VERSION = '0.4'
-//}
+}
+
 android {
   namespace = "team.unravel.easylut"
   compileSdk = 34
@@ -32,4 +29,7 @@ android {
 dependencies {
   testImplementation("junit:junit:4.12")
 }
-//apply from : 'https://raw.githubusercontent.com/blundell/release-android-library/master/android-release-aar.gradle'
+
+apply {
+  from("publish.gradle")
+}
