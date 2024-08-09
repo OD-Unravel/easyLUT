@@ -4,9 +4,21 @@ With easyLUT you can apply several types of color look-up table (CLUT) transform
 
 # Dependency
 
-EasyLUT is available on jCenter:
+EasyLUT is available on github packages:
 
-`compile 'hu.don.easylut:easylut:0.5'`
+Add new maven repo:
+    
+    maven {
+      name = "GitHubPackages"
+      url = uri("https://maven.pkg.github.com/OD-Unravel/easyLUT")
+      credentials {
+        username = "username"
+        password = "token"
+      }
+    }
+Add dependency:
+
+    implementation "team.unravel:easylut:v1.0.0"
 
 # Usage
 
