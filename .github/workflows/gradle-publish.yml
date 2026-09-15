@@ -20,32 +20,25 @@ jobs:
       packages: write
 
     steps:
+      # The default GITHUB_TOKEN is sufficient to check out this repository;
+      # it has no submodules, so no PAT is required.
       - name: Checkout
-        uses: actions/checkout@v2
-        with:
-          token: ${{ secrets.CI_TOKEN }}
-          submodules: recursive
+        uses: actions/checkout@v4
 
       - name: Set up JDK 17
-        uses: actions/setup-java@v2
+        uses: actions/setup-java@v4
         with:
           java-version: '17'
-          distribution: 'adopt'
-          server-id: github # Value of the distributionManagement/repository/id field of the pom.xml
-          settings-path: ${{ github.workspace }} # location for the settings.xml file
+          distribution: 'temurin'
 
       - name: Build with Gradle
         run: ./gradlew library:bundleReleaseAar
-
-      - name: Get the version
-        id: get_version
-        run: echo "::set-output name=VERSION::${GITHUB_REF#refs/tags/}"
 
       # The USERNAME and TOKEN need to correspond to the credentials environment variables used in
       # the publishing section of your build.gradle
       - name: Publish to GitHub Packages
         run: ./gradlew library:publish
         env:
-          VERSION: ${{ steps.get_version.outputs.VERSION }}
+          VERSION: ${{ github.event.release.tag_name }}
           USERNAME: ${{ github.actor }}
           TOKEN: ${{ secrets.GITHUB_TOKEN }}
